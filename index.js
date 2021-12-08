@@ -86,7 +86,7 @@ app.post("/api/todolist", (request, response) => {
     response.json(todoList)
 })
 
-const PORT = 8000 || process.env.PORT
+const PORT = process.env.PORT || 8000
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
