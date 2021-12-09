@@ -79,8 +79,7 @@ app.get("/", (request, response) => {
     response.send("<h1>This is backend website</h1>")
 })
 app.get("/api/todoList", (request, response) => {
-    Task.find({}).then(todoList => { response.json(todoList) })
-
+    response.json(todoList)
 })
 app.get('/api/todoList/:id', (request, response) => {
     const id = Number(request.params.id)
