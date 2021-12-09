@@ -106,7 +106,6 @@ app.post("/api/todolist", (request, response) => {
     // })
     // task.save().then(savedTask => response.json(savedTask))
     const body = request.body
-
     const task = {
         id: body.id,
         title: body.title,
@@ -118,8 +117,8 @@ app.post("/api/todolist", (request, response) => {
     response.json(task)
 })
 
-// const PORT = process.env.PORT || 8000
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8000
+// const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
