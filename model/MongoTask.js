@@ -1,19 +1,21 @@
 const mongoose = require("mongoose")
+require('dotenv').config()
 
 const url = process.env.MONGODB_URI;
 
-console.log('connecting to', url)
+// console.log('connecting to', url)
+console.log('connecting to')
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-    .then(() => console.log("connect to Mongo DB"))
+mongoose.connect(url, { useNewUrlParser: true })
+    .then(() => console.log("Connect to Mongo DB successfully "))
     .catch(error => { console.log("error occurred when connecting to Mongo DB:", error.message) })
 
 const taskSchema = new mongoose.Schema({
-    id: 20,
-    title: "Connect backend to MongoDB",
-    description: "connect todoApp's backend to Mongo database using mongoose",
-    category: "Un-grouped",
-    urgent: true
+
+    title: { type: String, required: true },
+    description: String,
+    category: { type: String, required: true },
+    urgent: Boolean
 })
 taskSchema.set('toJSON', {
     transform: (document, returnedObject) => {
@@ -23,4 +25,7 @@ taskSchema.set('toJSON', {
     }
 })
 
-module.exports = mongoose.model("MongoTask", taskSchema)
+const MongoTask = mongoose.model("MongoTask", taskSchema)
+module.exports = MongoTask
+
+// module.exports = mongoose.model("MongoTask", taskSchema)
