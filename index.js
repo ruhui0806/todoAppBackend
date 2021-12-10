@@ -134,8 +134,8 @@ app.put('/api/todoList/:id', (request, response) => {
         .then(result => response.json(result))
 })
 
-// const PORT = process.env.PORT || 8000
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8000
+// const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
