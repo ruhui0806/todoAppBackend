@@ -1,3 +1,16 @@
 GET http://localhost:8000/api/todoList
 
+###
+
 DELETE http://localhost:8000/api/todoList/19
+
+###
+POST http://localhost:8000/api/todoList
+Content-Type: application/json
+
+{
+"title": "TEST post function from RESR",
+"description": "another test from REST",
+"category": "Upstart",
+"urgent": false
+}

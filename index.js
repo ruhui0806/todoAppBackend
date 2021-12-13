@@ -74,9 +74,26 @@ let todoList = [
 // app.get("/api/todoList", (request, response) => {
 //     response.json(todoList)
 // })
-app.get('/api/todoList', (request, response) => {
-    MongoTask.find({})
-        .then((result) => response.json(result.map(item => item.toJSON())))
+
+const logger = (request, response, next) => {
+    console.log("Method: ", request.method)
+    console.log("Body: ", request.body)
+    console.log("Path: ", request.path)
+    console.log("End-------------")
+    next()
+}
+app.use(logger)
+
+// app.get('/api/todoList', (request, response) => {
+//     MongoTask.find({})
+//         .then((result) => response.json(result.map(item => item.toJSON())))
+// })
+app.get('/api/todoList', async (request, response) => {
+    try {
+        const result = await MongoTask.find({})
+        response.json(result.map(item => item.toJSON()))
+    }
+    catch (err) { response.status(500).json({ message: err.message }) }
 })
 // app.get('/api/todoList/:id', (request, response) => {
 //     const id = Number(request.params.id)
@@ -88,9 +105,13 @@ app.get('/api/todoList', (request, response) => {
 //         response.status(404).end()
 //     }
 // })
-app.get('/api/todoList/:id', (request, response) => {
+app.get('/api/todoList/:id', (request, response, next) => {
     MongoTask.findById(request.params.id)
-        .then((result) => response.json(result.toJSON()))
+        .then((result) => {
+            if (result) { response.json(result.toJSON()) }
+            else { response.status(404).end() }
+        })
+        .catch(error => next(error))
 })
 
 // app.delete('/api/todoList/:id', (request, response) => {
@@ -98,12 +119,13 @@ app.get('/api/todoList/:id', (request, response) => {
 //     todoList = todoList.filter(todo => todo.id !== id)
 //     response.status(204).end()
 // })
-app.delete('/api/todoList/:id', (request, response) => {
+app.delete('/api/todoList/:id', (request, response, next) => {
     MongoTask.findByIdAndRemove(request.params.id)
-        .then((result) => response.status(204).end)
+        .then((result) => response.status(204).end())
+        .catch(error => next(error))
 })
 
-app.post("/api/todolist", (request, response) => {
+app.post("/api/todolist", (request, response, next) => {
     // const task = request.body
     // todoList = todoList.concat(task)
     // response.json(todoList)
@@ -115,13 +137,15 @@ app.post("/api/todolist", (request, response) => {
         category: body.category,
         urgent: body.urgent
     })
-    task.save().then(result => {
-        console.log("testSchema is saved to mongo DB")
-        response.json(result.toJSON())
-        // mongoose.connection.close()
-    })
+    task.save()
+        .then(result => {
+            console.log("testSchema is saved to mongo DB")
+            response.json(result.toJSON())
+            // mongoose.connection.close()
+        })
+        .catch(error => next(error))
 })
-app.put('/api/todoList/:id', (request, response) => {
+app.put('/api/todoList/:id', (request, response, next) => {
     const body = request.body
 
     const updatedTask = {
@@ -132,7 +156,12 @@ app.put('/api/todoList/:id', (request, response) => {
     }
     MongoTask.findByIdAndUpdate(request.params.id, updatedTask, { new: true })
         .then(result => response.json(result))
+        .catch(error => next(error))
 })
+
+const unknownEndpoint = (request, response) => { response.status(404).send({ error: 'unknown endpoint' }) }
+
+app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 8000
 // const PORT = process.env.PORT
