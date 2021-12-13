@@ -6,7 +6,7 @@ const MongoTask = require('./model/MongoTask')
 const bodyParser = require("body-parser")
 // const mongoose = require("mongoose")
 // require('dotenv').config()
-const config = require("../utils/config")
+const config = require("./utils/config")
 const todoListRouter = require("./routes/todoList")
 const middleware = require('./utils/middlewares')
 
