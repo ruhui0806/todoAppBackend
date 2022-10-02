@@ -20,16 +20,13 @@ todoListRouter.get('/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-todoListRouter.delete('/api/todoList/:id', (request, response, next) => {
+todoListRouter.delete('/:id', (request, response, next) => {
     MongoTask.findByIdAndRemove(request.params.id)
         .then((result) => response.status(204).end())
         .catch(error => next(error))
 })
 
 todoListRouter.post("/", (request, response, next) => {
-    // const task = request.body
-    // todoList = todoList.concat(task)
-    // response.json(todoList)
     console.log(request.body)
     const body = request.body
     const task = new MongoTask({
