@@ -1,5 +1,3 @@
-
-
 const error = (...params) => {
     console.error(...params)
 }
