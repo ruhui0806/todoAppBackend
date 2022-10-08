@@ -1,15 +1,18 @@
-const { request } = require("express")
 
-const app = require('./app')
 const http = require('http')
-const config = require('./utils/config')
-const bodyParser = require("body-parser")
+
+
+const config = require("./utils/config")
+
 const logger = require('./utils/logger')
 
-const server = http.createServer(app)
+const app = require('./app')
+
+
+
 const PORT = config.PORT
 
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     logger.info(`Server running on port ${config.PORT}`)
 })

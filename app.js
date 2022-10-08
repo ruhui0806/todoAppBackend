@@ -28,8 +28,10 @@ app.use(bodyParser.json())
 app.use(middleware.requestLogger)
 
 app.use("/api/todoList", todoListRouter)
-app.use("/api/todoList/:id", todoListRouter)
+// app.use("/api/todoList/:id", todoListRouter)
 
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
+
+module.exports = app
