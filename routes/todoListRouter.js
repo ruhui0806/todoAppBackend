@@ -1,4 +1,6 @@
 require('dotenv').config()
+const User = require('../model/users')
+
 const MongoTask = require("../model/MongoTask")
 
 const todoListRouter = require('express').Router()
@@ -26,22 +28,31 @@ todoListRouter.delete('/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-todoListRouter.post("/", (request, response, next) => {
+todoListRouter.post("/", async(request, response, next) => {
     console.log(request.body)
     const body = request.body
+    const user = await User.findById(body.userId)
+    console.log(user)
+
     const task = new MongoTask({
         title: body.title,
         description: body.description,
         category: body.category,
-        urgent: body.urgent
+        urgent: body.urgent,
+        user: user._id
     })
-    task.save()
-        .then(result => {
-            console.log("testSchema is saved to mongo DB")
-            response.json(result.toJSON())
-            // mongoose.connection.close()
-        })
-        .catch(error => next(error))
+    const savedTask = await task.save()
+    user.tasks = user.tasks.concat(savedTask._id)
+    await user.save()
+    response.json(savedTask)
+    
+    // task.save()
+    //     .then(result => {
+    //         console.log("testSchema is saved to mongo DB")
+    //         response.json(result.toJSON())
+    //         // mongoose.connection.close()
+    //     })
+    //     .catch(error => next(error))
 })
 
 todoListRouter.put('/:id', (request, response, next) => {

@@ -12,12 +12,13 @@ mongoose.connect(url, { useNewUrlParser: true })
     .catch(error => { console.log("error occurred when connecting to Mongo DB:", error.message) })
 
 const taskSchema = new mongoose.Schema({
-
     title: { type: String, required: true },
     description: String,
     category: { type: String, required: true },
-    urgent: Boolean
+    urgent: Boolean,
+    user: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
 })
+
 taskSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
