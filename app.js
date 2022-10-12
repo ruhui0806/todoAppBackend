@@ -9,7 +9,11 @@ const logger = require('./utils/logger')
 const config = require("./utils/config")
 const todoListRouter = require("./routes/todoListRouter")
 const usersRouter = require("./routes/usersRouter")
+const loginRouter = require("./routes/loginRouter")
 const middleware = require('./utils/middlewares')
+
+// const TOKEN_SECRET = require('crypto').randomBytes(64).toString('hex')
+// console.log("token for secret: " + TOKEN_SECRET)
 
 logger.info('connecting to', config.MONGO_URI)
 
@@ -22,8 +26,11 @@ app.use(express.json())
 app.use(cors())
 app.use(bodyParser.json())
 app.use(middleware.logger)
+app.use(middleware.tokenExtractor)
+app.use(middleware.userExtractor)
 
 app.use("/api/users", usersRouter)
+app.use("/api/login", loginRouter)
 app.use("/api/todoList", todoListRouter)
 
 app.use(middleware.unknownEndpoint)
