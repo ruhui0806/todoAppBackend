@@ -24,23 +24,23 @@ const todoListRouter = require('express').Router()
 //   }
 
 todoListRouter.get('/', async (request, response) => {
-    // // const token = getTokenFrom(request)
-    // const token = request.token
-    // const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
-    // console.log("decodeToken: ", decodeToken)
+    // const token = getTokenFrom(request)
+    const token = request.token
+    const decodeToken = jwt.verify(token, process.env.TOKEN_SECRET)
+    console.log("decodeToken: ", decodeToken)
 
-    // if (!decodeToken.id) {
-    //     return response.status(401).json({ error: 'token missing or invalid' })
+    if (!decodeToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+      }
+
+    //   decodeToken:  {
+    //     user: 'root',
+    //     id: '63426f765aba46cfa67dfa92',
+    //     iat: 1665595560,
+    //     exp: 1665597360
     //   }
-
-    // //   decodeToken:  {
-    // //     user: 'root',
-    // //     id: '63426f765aba46cfa67dfa92',
-    // //     iat: 1665595560,
-    // //     exp: 1665597360
-    // //   }
-    // const user = User.findById(decodeToken.id)
-    const user = request.user
+    const user = User.findById(decodeToken.id)
+    // const user = request.user
 
 
     const result = await MongoTask.find({})
