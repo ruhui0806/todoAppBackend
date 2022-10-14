@@ -28,15 +28,3 @@ loginRouter.post("/", async(request, response) => {
 })
 module.exports = loginRouter
 
-
-//user:{
-    //     _id: new ObjectId("63426f765aba46cfa67dfa92"),
-    //     username: 'root',
-    //     name: 'Superuser',
-    //     passwordHash: '$2b$10$A9OE6FqSToUVhfRFtg1EEONguVhISqHCQ9xGTM/gqAD2m3hfMTX7W',
-    //     tasks: [
-    //       new ObjectId("63446677c82ab790e409e3cd"),
-    //       new ObjectId("63447c39f0b47dd96b68d994")
-    //     ],
-    //     __v: 2
-    //      }
