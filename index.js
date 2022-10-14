@@ -14,5 +14,5 @@ const PORT = config.PORT
 
 
 app.listen(PORT, () => {
-    logger.info(`Server running on port ${config.PORT}`)
+    logger.info(`Server running on port ${PORT}`)
 })
