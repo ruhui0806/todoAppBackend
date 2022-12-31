@@ -1,41 +1,46 @@
-const mongoose = require("mongoose")
-const express = require("express")
-const bodyParser = require("body-parser")
-const app = express()
 require('dotenv').config()
+const mongoose = require('mongoose')
+const express = require('express')
+const bodyParser = require('body-parser')
+const app = express()
 
 app.use(bodyParser.json())
 
 const url = process.env.MONGODB_URI
 
-mongoose.connect(url, { useNewUrlParser: true })
-    .then(() => console.log("connect to Mongo DB:", url))
-    .catch(error => { console.log("error occurred when connecting to Mongo DB:", error.message) })
+mongoose
+    .connect(url, { useNewUrlParser: true })
+    .then(() => console.log('connect to Mongo DB:', url))
+    .catch((error) => {
+        console.log(
+            'error occurred when connecting to Mongo DB:',
+            error.message
+        )
+    })
 
 const testSchema = new mongoose.Schema({
-
     title: { type: String, required: true },
     description: String,
     category: { type: String, required: true },
-    urgent: Boolean
+    urgent: Boolean,
 })
 testSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
         delete returnedObject.__v
-    }
+    },
 })
-const Test = mongoose.model("Test", testSchema)
+const Test = mongoose.model('Test', testSchema)
 
 const test = new Test({
-    title: "Connect to MongoDB",
+    title: 'Connect to MongoDB',
     description: "connect todoApp's backend to Mongo database using mongoose",
-    category: "In progress",
-    urgent: true
+    category: 'In progress',
+    urgent: true,
 })
-test.save().then(result => {
-    console.log("testSchema is saved to mongo DB")
+test.save().then((result) => {
+    console.log('testSchema is saved to mongo DB')
     mongoose.connection.close()
 })
 
@@ -58,4 +63,3 @@ test.save().then(result => {
 // })
 
 // module.exports = mongoose.model("MongoTask", taskSchema)
-
