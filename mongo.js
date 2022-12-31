@@ -6,9 +6,10 @@ const app = express()
 
 app.use(bodyParser.json())
 
+mongoose.set('strictQuery', false)
 mongoose
     .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-    .then(() => console.log('connect to Mongo DB successfully'))
+    .then(() => console.log('Connected to Mongo DB successfully'))
     .catch((error) => {
         console.log(
             'error occurred when connecting to Mongo DB:',
