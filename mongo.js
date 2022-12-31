@@ -6,7 +6,7 @@ const app = express()
 
 app.use(bodyParser.json())
 
-mongoose.set('strictQuery', false)
+mongoose.set('strictQuery', true)
 mongoose
     .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
     .then(() => console.log('Connected to Mongo DB successfully'))
@@ -42,23 +42,3 @@ test.save().then((result) => {
     console.log('testSchema is saved to mongo DB')
     mongoose.connection.close()
 })
-
-//NOTE: this file is used for testing the connection to Mongo DB
-//NOTE: store this file under the root repository of the backend. then run the file with command: $node mongo.js
-
-// const taskSchema = new mongoose.Schema({
-//     id: 20,
-//     title: "Connect backend to MongoDB",
-//     description: "connect todoApp's backend to Mongo database using mongoose",
-//     category: "Un-grouped",
-//     urgent: true
-// })
-// taskSchema.set('toJSON', {
-//     transform: (document, returnedObject) => {
-//         returnedObject.id = returnedObject._id.toString()
-//         delete returnedObject._id
-//         delete returnedObject.__v
-//     }
-// })
-
-// module.exports = mongoose.model("MongoTask", taskSchema)
