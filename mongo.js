@@ -6,14 +6,9 @@ const app = express()
 
 app.use(bodyParser.json())
 
-const url = process.env.MONGODB_URI
-
 mongoose
-    .connect(
-        'mongodb+srv://FullStack:Iy0GNJkGURYCRrmj@cluster0.iq4mx.mongodb.net/todoApp?retryWrites=true&w=majority',
-        { useNewUrlParser: true }
-    )
-    .then(() => console.log('connect to Mongo DB:', url))
+    .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+    .then(() => console.log('connect to Mongo DB successfully'))
     .catch((error) => {
         console.log(
             'error occurred when connecting to Mongo DB:',
